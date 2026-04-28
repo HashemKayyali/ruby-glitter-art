@@ -6,12 +6,15 @@
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { StarField } from './components/StarField';
-import { Services } from './components/Services';
 import { Stats } from './components/Stats';
-import { GlitterVibes } from './components/GlitterVibes';
-import { Gallery } from './components/Gallery';
+import { SignatureServices } from './components/SignatureServices';
+import { GlitterSection } from './components/GlitterSection';
+import { BrideRoomSection } from './components/BrideRoomSection';
+import { AnimatedImageMarquee } from './components/AnimatedImageMarquee';
+import { EventStyles } from './components/EventStyles';
 import { WhyBook } from './components/WhyBook';
 import { FinalCTA } from './components/FinalCTA';
+import { siteContent } from './data/siteContent';
 import React from 'react';
 
 export default function App() {
@@ -40,13 +43,37 @@ export default function App() {
       
       <main className="relative z-10 w-full">
         <Hero />
-        <Services />
+        <SignatureServices />
+        <GlitterSection />
+        <BrideRoomSection />
+        
+        <AnimatedImageMarquee 
+          id="glitter-gallery"
+          title="Glitter Gallery"
+          description="A collection of sparkling face and body glitter looks created for events, parties, festivals, and celebrations."
+          images={siteContent.glitterGalleryImages}
+          theme="glitter"
+          direction="left"
+        />
+        
+        <AnimatedImageMarquee 
+          id="bride-gallery"
+          title="Bride Room Gallery"
+          description="Elegant bride room decoration setups with balloons, Bride lettering, soft details, and wedding morning styling."
+          images={siteContent.brideRoomGalleryImages}
+          theme="bride"
+          direction="right"
+        />
+        
+        <EventStyles />
         <Stats />
-        <GlitterVibes />
-        <Gallery />
         <WhyBook />
         <FinalCTA />
       </main>
+      
+      <footer className="bg-slate-900 text-white py-12 text-center relative z-10 border-t border-slate-800">
+        <p className="text-slate-400">© {new Date().getFullYear()} {siteContent.brandDetails.name}. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

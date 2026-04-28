@@ -28,7 +28,7 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-center">
         <nav className="glass-panel rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl shadow-xl shadow-pink-100/50 bg-white/60 backdrop-blur-xl border border-pink-100/80">
           <a href="#home" className="text-lg md:text-xl font-heading font-extrabold tracking-tight flex-shrink-0 relative z-20">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase tracking-widest drop-shadow-sm">Ruby Glitter Art</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase tracking-widest drop-shadow-sm">{siteContent.brandDetails.name}</span>
           </a>
 
           {/* Desktop Nav */}
