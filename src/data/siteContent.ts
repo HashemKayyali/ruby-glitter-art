@@ -60,8 +60,12 @@ export const siteContent = {
     { src: "/images/glitter-3.jpg", alt: "Glitter design for party", category: "Kids" },
     { src: "/images/glitter-4.jpg", alt: "Kids glitter face art", category: "Face" },
     { src: "/images/glitter-5.jpg", alt: "Festival glitter art", category: "Face" },
-    { src: "/images/glitter-6.jpg", alt: "Creative face glitter design", category: "Events" },
-    { src: "/images/glitter-7.jpg", alt: "Glitter art event moment", category: "Events" }
+    { src: "/images/glitter-6.jpg", alt: "Glitter design for party", category: "Kids" },
+    { src: "/images/glitter-7.jpg", alt: "Kids glitter face art", category: "Face" },
+    { src: "/images/glitter-8.jpg", alt: "Festival glitter art", category: "Face" },
+    { src: "/images/glitter-9.jpg", alt: "Creative face glitter design", category: "Events" },
+    { src: "/images/glitter-10.jpg", alt: "Creative face glitter design", category: "Events" },
+    { src: "/images/glitter-11.jpg", alt: "Glitter art event moment", category: "Events" }
   ],
   brideRoomGalleryImages: [
     { src: "/images/bride-room-1.jpg", alt: "Bride room decoration with balloons by Ruby Arts", category: "Decor" },
@@ -69,7 +73,11 @@ export const siteContent = {
     { src: "/images/bride-room-3.jpg", alt: "Elegant bridal room styling", category: "Setup" },
     { src: "/images/bride-room-4.jpg", alt: "Photo-ready bride room decoration", category: "Balloons" },
     { src: "/images/bride-room-5.jpg", alt: "Wedding morning bride room setup", category: "Setup" },
-    { src: "/images/bride-room-6.jpg", alt: "Soft bridal room decoration with balloons", category: "Decor" }
+    { src: "/images/bride-room-6.jpg", alt: "Bride room setup with Bride lettering", category: "Decor" },
+    { src: "/images/bride-room-7.jpg", alt: "Elegant bridal room styling", category: "Setup" },
+    { src: "/images/bride-room-8.jpg", alt: "Photo-ready bride room decoration", category: "Balloons" },
+    { src: "/images/bride-room-9.jpg", alt: "Wedding morning bride room setup", category: "Setup" },
+    { src: "/images/bride-room-10.jpg", alt: "Soft bridal room decoration with balloons", category: "Decor" }
 
   ],
   glitterServices: {
