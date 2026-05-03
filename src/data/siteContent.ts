@@ -1,3 +1,10 @@
+import {
+  glitterImages,
+  brideRoomImages,
+  heroFloatingImages,
+  pickHeroImage,
+} from '../lib/galleryImages';
+
 export const siteContent = {
   brandDetails: {
     name: "Ruby Arts",
@@ -11,7 +18,7 @@ export const siteContent = {
     { label: "Services", href: "#services" },
     { label: "Glitter", href: "#glitter-gallery" },
     { label: "Bride Room", href: "#bride-gallery" },
-    { label: "Gallery", href: "#gallery" },
+    { label: "Styles", href: "#styles" },
     { label: "Contact", href: "#contact" },
   ],
   hero: {
@@ -22,25 +29,14 @@ export const siteContent = {
     primaryCta: "Book Your Moment",
     secondaryCta: "Explore Services",
   },
-  heroFloatingImages: [
-    "/images/glitter-1.jpg",
-    "/images/glitter-2.jpg",
-    "/images/bride-room-1.jpg",
-    "/images/bride-room-2.jpg",
-    "/images/glitter-3.jpg",
-    "/images/bride-room-3.jpg",
-    "/images/glitter-4.jpg",
-    "/images/bride-room-4.jpg",
-    "/images/glitter-5.jpg",
-    "/images/bride-room-5.jpg"
-  ],
+  heroFloatingImages,
   signatureServices: [
     {
       id: "glitter",
       title: "Glitter Art",
       badge: "FACE & BODY ART",
       description: "Sparkling face and body glitter looks for birthdays, kids parties, festivals, private events, and brand activations.",
-      image: "/images/glitter-service.jpg",
+      image: pickHeroImage('glitter'),
       cta: "View Glitter Gallery",
       target: "#glitter-gallery"
     },
@@ -49,29 +45,13 @@ export const siteContent = {
       title: "Bride Room Decoration",
       badge: "BRIDAL ROOM STYLING",
       description: "Elegant bride room setups with balloons, Bride lettering, soft colors, and photo-ready wedding morning details.",
-      image: "/images/bride-service.jpg",
+      image: pickHeroImage('bride-room'),
       cta: "View Bride Room Gallery",
       target: "#bride-gallery"
     }
   ],
-  glitterGalleryImages: [
-    { src: "/images/glitter-1.jpg", alt: "Glitter face art by Ruby Arts", category: "Face" },
-    { src: "/images/glitter-2.jpg", alt: "Sparkling glitter event look", category: "Body" },
-    { src: "/images/glitter-3.jpg", alt: "Glitter design for party", category: "Kids" },
-    { src: "/images/glitter-4.jpg", alt: "Kids glitter face art", category: "Face" },
-    { src: "/images/glitter-5.jpg", alt: "Festival glitter art", category: "Face" },
-    { src: "/images/glitter-6.jpg", alt: "Creative face glitter design", category: "Events" },
-    { src: "/images/glitter-7.jpg", alt: "Glitter art event moment", category: "Events" }
-  ],
-  brideRoomGalleryImages: [
-    { src: "/images/bride-room-1.jpg", alt: "Bride room decoration with balloons by Ruby Arts", category: "Decor" },
-    { src: "/images/bride-room-2.jpg", alt: "Bride room setup with Bride lettering", category: "Decor" },
-    { src: "/images/bride-room-3.jpg", alt: "Elegant bridal room styling", category: "Setup" },
-    { src: "/images/bride-room-4.jpg", alt: "Photo-ready bride room decoration", category: "Balloons" },
-    { src: "/images/bride-room-5.jpg", alt: "Wedding morning bride room setup", category: "Setup" },
-    { src: "/images/bride-room-6.jpg", alt: "Soft bridal room decoration with balloons", category: "Decor" }
-
-  ],
+  glitterGalleryImages: glitterImages,
+  brideRoomGalleryImages: brideRoomImages,
   glitterServices: {
     title: "Glitter Art for Events",
     description:
