@@ -213,6 +213,7 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
               themeClass={themeClass}
               fallbackGradient={fallbackGradient}
               isDragging={isDragging}
+              priority={idx < 4}
               onSelect={() => openLightbox(idx)}
               dragMovedRef={dragMovedRef}
             />
@@ -270,57 +271,81 @@ const MarqueeCard: React.FC<{
   themeClass: string;
   fallbackGradient: string;
   isDragging: boolean;
+  priority: boolean;
   onSelect: () => void;
   dragMovedRef: React.RefObject<boolean>;
-}> = ({ img, themeClass, fallbackGradient, isDragging, onSelect, dragMovedRef }) => (
-  <div
-    role="button"
-    tabIndex={0}
-    aria-label={img.alt}
-    onClickCapture={(e) => {
-      // If the user just dragged, swallow the click that fires on pointer-up.
-      if (dragMovedRef.current) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    }}
-    onClick={() => {
-      if (dragMovedRef.current) return;
-      onSelect();
-    }}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+}> = ({
+  img,
+  themeClass,
+  fallbackGradient,
+  isDragging,
+  priority,
+  onSelect,
+  dragMovedRef,
+}) => {
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-label={img.alt}
+      onClickCapture={(e) => {
+        if (dragMovedRef.current) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }}
+      onClick={() => {
+        if (dragMovedRef.current) return;
         onSelect();
-      }
-    }}
-    draggable={false}
-    className={`group/card relative w-[240px] sm:w-[280px] md:w-[320px] shrink-0 aspect-[4/5] rounded-3xl overflow-hidden bg-white border shadow-xl p-1 transition-all duration-500 hover:-translate-y-1 ${themeClass} ${
-      isDragging ? 'pointer-events-auto' : ''
-    }`}
-  >
-    <div className="w-full h-full relative rounded-[22px] overflow-hidden bg-slate-50">
-      <img
-        src={img.src}
-        alt={img.alt}
-        draggable={false}
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover/card:scale-110 pointer-events-none"
-        loading="lazy"
-        decoding="async"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.style.display = 'none';
-          target.parentElement!.style.background = fallbackGradient;
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 transform -translate-x-full group-hover/card:translate-x-full pointer-events-none mix-blend-overlay" />
-      <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" />
-      <span className="absolute bottom-3 right-3 text-[10px] font-bold uppercase tracking-widest text-white opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none drop-shadow">
-        view
-      </span>
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
+      draggable={false}
+      className={`group/card relative w-[240px] sm:w-[280px] md:w-[320px] shrink-0 aspect-[4/5] rounded-3xl overflow-hidden bg-white border shadow-xl p-1 transition-all duration-500 hover:-translate-y-1 ${themeClass} ${
+        isDragging ? 'pointer-events-auto' : ''
+      }`}
+    >
+      <div
+        className="w-full h-full relative rounded-[22px] overflow-hidden"
+        style={{ background: fallbackGradient }}
+      >
+        {/* Soft shimmer placeholder while the image loads */}
+        {!loaded && !errored && (
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-white/40 bg-[length:200%_100%] animate-[shimmer_1.6s_linear_infinite] pointer-events-none" />
+        )}
+
+        {!errored && (
+          <img
+            src={img.src}
+            alt={img.alt}
+            draggable={false}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            {...({ fetchpriority: priority ? 'high' : 'auto' } as Record<string, string>)}
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+            className={`w-full h-full object-cover pointer-events-none will-change-transform transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-110 ${
+              loaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 transform -translate-x-full group-hover/card:translate-x-full pointer-events-none mix-blend-overlay" />
+        <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <span className="absolute bottom-3 right-3 text-[10px] font-bold uppercase tracking-widest text-white opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 pointer-events-none drop-shadow">
+          view
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Lightbox: React.FC<{
   image: GalleryImage;
