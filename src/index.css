@@ -270,6 +270,36 @@ main {
   background-size: 22px 22px;
 }
 
+/* Painted canvas wash — cheap fixed background (no filter, GPU-friendly) */
+.bg-painted-canvas {
+  background:
+    radial-gradient(at 12% 18%, rgba(252, 207, 232, 0.55) 0%, transparent 35%),
+    radial-gradient(at 88% 12%, rgba(216, 180, 254, 0.40) 0%, transparent 38%),
+    radial-gradient(at 78% 70%, rgba(254, 215, 170, 0.40) 0%, transparent 40%),
+    radial-gradient(at 22% 82%, rgba(251, 207, 232, 0.45) 0%, transparent 38%),
+    linear-gradient(180deg, #fffafd 0%, #fff7fb 40%, #fffaf2 100%);
+}
+
+/* Subtle confetti dots (very thin) for sections that want extra texture */
+.bg-confetti {
+  background-image:
+    radial-gradient(rgba(244, 114, 182, 0.22) 1.4px, transparent 1.4px),
+    radial-gradient(rgba(168, 85, 247, 0.18) 1px, transparent 1px),
+    radial-gradient(rgba(251, 191, 36, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px, 48px 48px, 70px 70px;
+  background-position: 0 0, 12px 12px, 24px 24px;
+}
+
+/* Color-shifting card halo on hover (CSS-only) */
+.halo-on-hover {
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.halo-on-hover:hover {
+  box-shadow:
+    0 8px 30px -10px rgba(244, 114, 182, 0.45),
+    0 0 0 1px rgba(244, 114, 182, 0.08);
+}
+
 /* Wavy divider helper */
 .wave-divider {
   height: 60px;
