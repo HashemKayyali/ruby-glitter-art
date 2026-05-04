@@ -46,6 +46,7 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
   // *current* state synchronously, even between renders.
   const draggingRef = useRef(false);
   const hoverRef = useRef(false);
+  const inViewRef = useRef(true);
   const dragMovedRef = useRef(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const resumeTimerRef = useRef<number | null>(null);
@@ -81,21 +82,47 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
     };
   }, [images.length]);
 
+  // Pause auto-play (and reset hover/drag state) when the section is not in
+  // view. Otherwise rAF keeps drifting baseX while the user looks elsewhere
+  // and the gallery is empty when they scroll back.
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          inViewRef.current = e.isIntersecting;
+          if (!e.isIntersecting) {
+            hoverRef.current = false;
+          }
+        }
+      },
+      { threshold: 0.05 }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
   // Auto-play loop. Pauses when the user is dragging, hovering (desktop),
-  // or has the lightbox open.
+  // when the section is off-screen, or while the lightbox is open.
   useAnimationFrame((_t, delta) => {
     if (
       shouldReduceMotion ||
       trackWidth === 0 ||
       draggingRef.current ||
       hoverRef.current ||
+      !inViewRef.current ||
       lightboxIndex !== null
     ) {
       return;
     }
+    // Cap delta so a backgrounded tab resuming after seconds doesn't yank
+    // the track by hundreds of pixels in one frame.
+    const safeDelta = Math.min(delta, 50);
     const sign = direction === 'left' ? -1 : 1;
-    const movePerSec = (delta / 1000) * speed;
-    const next = baseX.get() + sign * movePerSec;
+    const movePerSec = (safeDelta / 1000) * speed;
+    const current = baseX.get();
+    const next = (Number.isFinite(current) ? current : 0) + sign * movePerSec;
     baseX.set(wrap(-trackWidth, 0, next));
   });
 
@@ -158,10 +185,16 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
       <div
         ref={containerRef}
         className="mt-10 sm:mt-12 w-full overflow-hidden relative select-none"
-        onMouseEnter={() => {
-          hoverRef.current = true;
+        onPointerEnter={(e) => {
+          // Only pause for actual mouse hover on desktop. Touch pointers
+          // fire enter/leave during scroll on some browsers and would
+          // otherwise leave the carousel paused after a fast scroll.
+          if (e.pointerType === 'mouse') hoverRef.current = true;
         }}
-        onMouseLeave={() => {
+        onPointerLeave={() => {
+          hoverRef.current = false;
+        }}
+        onPointerCancel={() => {
           hoverRef.current = false;
         }}
       >
@@ -173,8 +206,8 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
           style={{ x: baseX, touchAction: 'pan-y' }}
           drag="x"
           dragConstraints={{ left: -Infinity, right: Infinity }}
-          dragElastic={0.12}
-          dragMomentum
+          dragElastic={0}
+          dragMomentum={false}
           onDragStart={(_e, info: PanInfo) => {
             if (resumeTimerRef.current) {
               window.clearTimeout(resumeTimerRef.current);
@@ -191,19 +224,25 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
             if (dx > TAP_THRESHOLD_PX && dx > dy) {
               dragMovedRef.current = true;
             }
+            // Wrap continuously during drag so the track never escapes the
+            // visible loop range — no more "swipe and the cards vanish".
+            if (trackWidth) {
+              const current = baseX.get();
+              const wrapped = wrap(-trackWidth, 0, current);
+              if (current !== wrapped) baseX.set(wrapped);
+            }
           }}
           onDragEnd={() => {
-            // Re-wrap so the loop position stays valid
+            // Final wrap snap, then a short grace period before auto-play
+            // resumes — also keeps the click handler suppressed long enough
+            // that swipe-release doesn't fire the lightbox.
             if (trackWidth) baseX.set(wrap(-trackWidth, 0, baseX.get()));
-
-            // Allow the click handler to see "we just dragged" briefly so the
-            // lightbox doesn't open on a swipe-release click.
             resumeTimerRef.current = window.setTimeout(() => {
               draggingRef.current = false;
               dragMovedRef.current = false;
               setIsDragging(false);
               resumeTimerRef.current = null;
-            }, 80);
+            }, 200);
           }}
         >
           {marqueeItems.map((img, idx) => (
