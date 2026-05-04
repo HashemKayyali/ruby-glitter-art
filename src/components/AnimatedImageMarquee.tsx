@@ -147,13 +147,21 @@ export const AnimatedImageMarquee: React.FC<MarqueeProps> = ({
 
   useEffect(() => {
     if (lightboxIndex === null) return;
+
+    // Lock background scroll while the lightbox is open
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox();
       else if (e.key === 'ArrowRight') nextLightbox();
       else if (e.key === 'ArrowLeft') prevLightbox();
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+    };
   }, [lightboxIndex]);
 
   // Cleanup any pending resume timer on unmount
@@ -469,7 +477,9 @@ const Lightbox: React.FC<{
         />
       </motion.div>
 
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/80 text-xs font-bold tracking-widest uppercase">
+      <div
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/80 text-xs font-bold tracking-widest uppercase pointer-events-none"
+      >
         {index + 1} / {count}
       </div>
     </motion.div>

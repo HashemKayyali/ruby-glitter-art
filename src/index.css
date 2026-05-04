@@ -46,6 +46,11 @@ html, body, #root {
   font-family: var(--font-sans);
 }
 
+/* Anchor links land below the fixed navbar instead of underneath it */
+section[id] {
+  scroll-margin-top: 88px;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
