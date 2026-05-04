@@ -37,7 +37,13 @@ export const EventStyles = () => {
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 className={`soft-card p-6 sm:p-8 rounded-[28px] sm:rounded-[32px] hover:-translate-y-1 transition-all duration-300 shadow-xl border ${borderClass} ${hoverClass} group relative overflow-hidden`}
               >
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-radial from-white to-transparent opacity-50 pointer-events-none" />
+                <div
+                  className="absolute -bottom-10 -right-10 w-32 h-32 opacity-50 pointer-events-none"
+                  style={{
+                    background:
+                      'radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 70%)',
+                  }}
+                />
 
                 <div className="flex items-center gap-2 mb-4">
                   <span

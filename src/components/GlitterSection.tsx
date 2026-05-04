@@ -9,7 +9,13 @@ const ICONS = [Sparkles, Star, PartyPopper, Wand2, Crown, Heart];
 export const GlitterSection = () => {
   return (
     <section id="glitter" className="py-16 sm:py-24 relative z-10 overflow-hidden">
-      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-gradient-radial from-pink-100/40 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div
+        className="absolute -top-20 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full blur-3xl pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(252,231,243,0.4) 0%, transparent 70%)',
+        }}
+      />
 
       <SectionHeading
         eyebrow="✦ glitter art ✦"
