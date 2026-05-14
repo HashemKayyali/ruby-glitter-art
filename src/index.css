@@ -47,8 +47,12 @@ html, body, #root {
 }
 
 /* Anchor links land below the fixed navbar instead of underneath it */
-section[id] {
+section[id]:not(#home) {
   scroll-margin-top: 88px;
+}
+
+#home {
+  scroll-margin-top: 0;
 }
 
 body {

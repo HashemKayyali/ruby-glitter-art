@@ -10,6 +10,21 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const scrollToTop = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setMobileMenuOpen(false);
+    window.history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}${window.location.search}`
+    );
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
     let rafId: number | null = null;
     const handleScroll = () => {
@@ -53,6 +68,7 @@ export const Navbar = () => {
         >
           <a
             href="#home"
+            onClick={scrollToTop}
             className="flex items-center gap-1.5 text-base sm:text-lg md:text-xl font-heading font-extrabold tracking-tight flex-shrink-0 relative z-20 group"
           >
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500 group-hover:rotate-12 transition-transform" />
@@ -62,11 +78,12 @@ export const Navbar = () => {
           </a>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-8">
+          <div className="hidden lg:flex items-center gap-7 xl:gap-8">
             {siteContent.navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
+                onClick={link.href === '#home' ? scrollToTop : undefined}
                 className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-pink-500 transition-colors relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[-6px] after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-pink-400 after:to-violet-400 after:transition-all hover:after:w-full"
               >
                 {link.label}
@@ -74,7 +91,7 @@ export const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden md:block flex-shrink-0">
+          <div className="hidden lg:block flex-shrink-0">
             <MagneticButton
               href="#contact"
               className="px-5 lg:px-6 py-2 bg-gradient-to-r from-pink-500 to-violet-600 rounded-full text-xs font-bold text-white shadow-[0_0_20px_rgba(236,72,153,0.35)] hover:opacity-95 transition-opacity"
@@ -85,7 +102,7 @@ export const Navbar = () => {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-slate-800 p-2 -mr-1 relative z-20 rounded-full hover:bg-pink-50 transition-colors"
+            className="lg:hidden text-slate-800 p-2 -mr-1 relative z-20 rounded-full hover:bg-pink-50 transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -113,14 +130,20 @@ export const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22 }}
-            className="absolute top-full left-0 right-0 px-3 mt-2 md:hidden"
+            className="absolute top-full left-0 right-0 px-3 mt-2 lg:hidden"
           >
             <div className="rounded-3xl p-5 flex flex-col gap-1 shadow-2xl border border-pink-100 mx-auto max-w-md bg-white/95 backdrop-blur-2xl">
               {siteContent.navLinks.map((link, idx) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(event) => {
+                    if (link.href === '#home') {
+                      scrollToTop(event);
+                      return;
+                    }
+                    setMobileMenuOpen(false);
+                  }}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 * idx }}

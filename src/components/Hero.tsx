@@ -4,6 +4,7 @@ import { MagneticButton } from './MagneticButton';
 import { ImageCard } from './ImageCard';
 import { Sparkles, ArrowDown } from 'lucide-react';
 import React, { useRef } from 'react';
+import heroBackground from '../assets/images/hero.png';
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,10 +16,10 @@ export const Hero = () => {
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const y4 = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -70]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, 35]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   const cards = siteContent.heroFloatingImages || [];
   const headline = siteContent.hero.headline.split('\n');
@@ -27,11 +28,21 @@ export const Hero = () => {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-[100svh] flex items-center justify-center pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
+      className="relative isolate min-h-[100svh] flex items-center justify-center pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden"
     >
+      <div
+        className="absolute inset-0 -z-10 scale-[1.04] bg-cover bg-center blur-[3px]"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(15,23,42,0.50)_0%,rgba(88,28,68,0.30)_42%,rgba(255,250,253,0.78)_100%)]"
+        aria-hidden="true"
+      />
+
       {/* soft layered background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-pink-50/40 via-white to-amber-50/30 -z-0" />
-      <div className="absolute inset-0 dot-pattern opacity-50 -z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-pink-50/20 via-white/55 to-amber-50/30 -z-0" />
+      <div className="absolute inset-0 dot-pattern opacity-35 -z-0" />
 
       <motion.div
         style={{ y, opacity }}
@@ -131,57 +142,57 @@ export const Hero = () => {
         {cards[0] && (
           <motion.div
             style={{ y: y1 }}
-            className="hidden lg:block absolute top-[15%] left-[5%] w-44 h-60 rotate-[-8deg] opacity-90 animate-float-slow shadow-2xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] rotate-[-7deg] opacity-75 transition-transform duration-500 hover:scale-105 hover:rotate-0 lg:absolute lg:left-[5%] lg:top-[12%] lg:block lg:w-36 xl:top-[16%] xl:w-44 xl:opacity-90 animate-float-slow"
           >
-            <ImageCard src={cards[0]} priority className="rounded-xl" />
+            <ImageCard src={cards[0]} priority />
           </motion.div>
         )}
         {cards[1] && (
           <motion.div
             style={{ y: y3, animationDelay: '1.2s' }}
-            className="hidden lg:block absolute bottom-[18%] left-[14%] w-40 h-56 rotate-[6deg] opacity-80 animate-float shadow-2xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] w-40 rotate-[5deg] opacity-80 transition-transform duration-500 hover:scale-105 hover:rotate-0 xl:absolute xl:bottom-[26%] xl:left-[12%] xl:block animate-float"
           >
-            <ImageCard src={cards[1]} priority className="rounded-xl" />
+            <ImageCard src={cards[1]} priority />
           </motion.div>
         )}
         {cards[2] && (
           <motion.div
             style={{ y: y2, animationDelay: '2.5s' }}
-            className="hidden xl:block absolute top-[28%] left-[24%] w-32 h-44 rotate-[-12deg] opacity-50 animate-float shadow-xl rounded-2xl overflow-hidden bg-white p-1 mix-blend-multiply"
+            className="pointer-events-auto hidden aspect-[3/4] w-32 rotate-[-6deg] opacity-55 transition-transform duration-500 hover:scale-105 hover:rotate-0 xl:block xl:absolute xl:left-[24%] xl:top-[30%] animate-float"
           >
-            <ImageCard src={cards[2]} priority className="rounded-xl" />
+            <ImageCard src={cards[2]} priority />
           </motion.div>
         )}
         {cards[3] && (
           <motion.div
             style={{ y: y1, animationDelay: '0.8s' }}
-            className="hidden lg:block absolute top-[14%] right-[6%] w-48 h-60 rotate-[10deg] opacity-90 animate-float-slow shadow-2xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] rotate-[7deg] opacity-75 transition-transform duration-500 hover:scale-105 hover:rotate-0 lg:absolute lg:right-[5%] lg:top-[12%] lg:block lg:w-36 xl:right-[6%] xl:top-[15%] xl:w-44 xl:opacity-90 animate-float-slow"
           >
-            <ImageCard src={cards[3]} priority className="rounded-xl" />
+            <ImageCard src={cards[3]} priority />
           </motion.div>
         )}
         {cards[4] && (
           <motion.div
             style={{ y: y3, animationDelay: '1.8s' }}
-            className="hidden lg:block absolute bottom-[22%] right-[18%] w-36 h-48 rotate-[-6deg] opacity-65 animate-float shadow-xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] w-36 rotate-[-5deg] opacity-65 transition-transform duration-500 hover:scale-105 hover:rotate-0 xl:absolute xl:bottom-[28%] xl:right-[18%] xl:block animate-float"
           >
-            <ImageCard src={cards[4]} priority className="rounded-xl" />
+            <ImageCard src={cards[4]} priority />
           </motion.div>
         )}
         {cards[5] && (
           <motion.div
             style={{ y: y2, animationDelay: '3s' }}
-            className="hidden lg:block absolute top-[55%] right-[4%] w-40 h-52 rotate-[14deg] opacity-75 animate-float-slow shadow-xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] w-40 rotate-[6deg] opacity-75 transition-transform duration-500 hover:scale-105 hover:rotate-0 xl:absolute xl:right-[5%] xl:top-[52%] xl:block animate-float-slow"
           >
-            <ImageCard src={cards[5]} priority className="rounded-xl" />
+            <ImageCard src={cards[5]} priority />
           </motion.div>
         )}
         {cards[6] && (
           <motion.div
             style={{ y: y4, animationDelay: '0.4s' }}
-            className="hidden xl:block absolute top-[60%] left-[7%] w-36 h-48 rotate-[-15deg] opacity-55 animate-float shadow-xl rounded-2xl overflow-hidden bg-white p-1"
+            className="pointer-events-auto hidden aspect-[3/4] w-32 rotate-[-7deg] opacity-55 transition-transform duration-500 hover:scale-105 hover:rotate-0 xl:block xl:absolute xl:left-[7%] xl:top-[58%] animate-float"
           >
-            <ImageCard src={cards[6]} priority className="rounded-xl" />
+            <ImageCard src={cards[6]} priority />
           </motion.div>
         )}
 
@@ -189,25 +200,25 @@ export const Hero = () => {
         {cards[0] && (
           <motion.div
             style={{ y: y1 }}
-            className="lg:hidden absolute top-[8%] -left-[14%] w-28 h-36 rotate-[15deg] opacity-30 animate-float rounded-xl overflow-hidden bg-white p-1 mix-blend-multiply"
+            className="absolute left-4 top-[10%] aspect-[3/4] w-24 rotate-[6deg] opacity-30 sm:w-28 md:w-32 lg:hidden animate-float"
           >
-            <ImageCard src={cards[0]} priority className="rounded-lg" />
+            <ImageCard src={cards[0]} priority className="rounded-[14px]" />
           </motion.div>
         )}
         {cards[1] && (
           <motion.div
             style={{ y: y3, animationDelay: '1s' }}
-            className="lg:hidden absolute top-[28%] -right-[14%] w-32 h-44 rotate-[-12deg] opacity-30 animate-float rounded-xl overflow-hidden bg-white p-1 mix-blend-multiply"
+            className="absolute right-2 top-[25%] aspect-[3/4] w-24 rotate-[-6deg] opacity-30 sm:w-28 md:w-32 lg:hidden animate-float"
           >
-            <ImageCard src={cards[1]} priority className="rounded-lg" />
+            <ImageCard src={cards[1]} priority className="rounded-[14px]" />
           </motion.div>
         )}
         {cards[2] && (
           <motion.div
             style={{ y: y2, animationDelay: '2.5s' }}
-            className="lg:hidden absolute bottom-[20%] -left-[12%] w-24 h-32 rotate-[-10deg] opacity-25 animate-float rounded-xl overflow-hidden bg-white p-1 mix-blend-multiply"
+            className="absolute bottom-[18%] left-[6%] hidden aspect-[3/4] w-24 rotate-[-5deg] opacity-25 md:block lg:hidden animate-float"
           >
-            <ImageCard src={cards[2]} priority className="rounded-lg" />
+            <ImageCard src={cards[2]} priority className="rounded-[14px]" />
           </motion.div>
         )}
       </div>

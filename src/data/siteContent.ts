@@ -19,6 +19,7 @@ export const siteContent = {
     { label: "Glitter", href: "#glitter-gallery" },
     { label: "Bride Room", href: "#bride-gallery" },
     { label: "Styles", href: "#styles" },
+    { label: "Pricing", href: "#pricing" },
     { label: "Contact", href: "#contact" },
   ],
   hero: {

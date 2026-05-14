@@ -375,7 +375,7 @@ const MarqueeCard: React.FC<{
             draggable={false}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            {...({ fetchpriority: priority ? 'high' : 'auto' } as Record<string, string>)}
+            fetchPriority={priority ? 'high' : 'auto'}
             onLoad={() => setLoaded(true)}
             onError={() => setErrored(true)}
             className={`w-full h-full object-cover pointer-events-none will-change-transform transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-110 ${

@@ -12,6 +12,7 @@ import { GlitterSection } from './components/GlitterSection';
 import { BrideRoomSection } from './components/BrideRoomSection';
 import { AnimatedImageMarquee } from './components/AnimatedImageMarquee';
 import { EventStyles } from './components/EventStyles';
+import { PricingSection } from './components/PricingSection';
 import { WhyBook } from './components/WhyBook';
 import { FinalCTA } from './components/FinalCTA';
 import { SectionDivider } from './components/SectionDivider';
@@ -97,6 +98,7 @@ export default function App() {
         <SectionDivider tone="lavender" />
 
         <EventStyles />
+        <PricingSection />
         <Stats />
         <WhyBook />
         <FinalCTA />

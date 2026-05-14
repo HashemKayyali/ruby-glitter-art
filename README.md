@@ -1,6 +1,6 @@
 git status
 git add .
-git commit -m "Update gallery"
+git commit -m "pricing"
 git push
 
 npm run optimize-images
