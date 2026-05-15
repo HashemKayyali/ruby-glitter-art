@@ -216,9 +216,17 @@ export const Hero = () => {
         {cards[2] && (
           <motion.div
             style={{ y: y2, animationDelay: '2.5s' }}
-            className="absolute bottom-[18%] left-[6%] hidden aspect-[3/4] w-24 rotate-[-5deg] opacity-25 md:block lg:hidden animate-float"
+            className="absolute bottom-[7%] left-5 aspect-[3/4] w-20 rotate-[-5deg] opacity-20 sm:w-24 md:bottom-[18%] md:left-[6%] md:w-24 lg:hidden animate-float"
           >
             <ImageCard src={cards[2]} priority className="rounded-[14px]" />
+          </motion.div>
+        )}
+        {cards[3] && (
+          <motion.div
+            style={{ y: y4, animationDelay: '1.6s' }}
+            className="absolute bottom-[4%] right-5 aspect-[3/4] w-20 rotate-[5deg] opacity-20 sm:w-24 md:hidden animate-float-slow"
+          >
+            <ImageCard src={cards[3]} priority className="rounded-[14px]" />
           </motion.div>
         )}
       </div>

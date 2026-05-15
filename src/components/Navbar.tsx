@@ -10,18 +10,54 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToTop = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
+  const scrollToTop = (event?: React.MouseEvent<HTMLAnchorElement>) => {
+    event?.preventDefault();
     setMobileMenuOpen(false);
+    document.body.style.overflow = '';
     window.history.replaceState(
       null,
       '',
       `${window.location.pathname}${window.location.search}`
     );
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    });
+  };
+
+  const scrollToSection = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    event.preventDefault();
+
+    const id = href.replace('#', '');
+    if (id === 'home') {
+      scrollToTop();
+      return;
+    }
+
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    setMobileMenuOpen(false);
+    document.body.style.overflow = '';
+
+    const nav = document.querySelector('nav');
+    const navHeight = nav instanceof HTMLElement ? nav.offsetHeight : 0;
+    const targetY =
+      element.getBoundingClientRect().top + window.scrollY - navHeight - 16;
+
+    window.history.replaceState(null, '', `#${id}`);
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: Math.max(targetY, 0),
+        left: 0,
+        behavior: 'smooth',
+      });
     });
   };
 
@@ -67,7 +103,7 @@ export const Navbar = () => {
           )}
         >
           <a
-            href="#home"
+            href="/"
             onClick={scrollToTop}
             className="flex items-center gap-1.5 text-base sm:text-lg md:text-xl font-heading font-extrabold tracking-tight flex-shrink-0 relative z-20 group"
           >
@@ -82,8 +118,8 @@ export const Navbar = () => {
             {siteContent.navLinks.map((link) => (
               <a
                 key={link.label}
-                href={link.href}
-                onClick={link.href === '#home' ? scrollToTop : undefined}
+                href={link.href === '#home' ? '/' : link.href}
+                onClick={(event) => scrollToSection(event, link.href)}
                 className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-pink-500 transition-colors relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-[-6px] after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-pink-400 after:to-violet-400 after:transition-all hover:after:w-full"
               >
                 {link.label}
@@ -136,14 +172,8 @@ export const Navbar = () => {
               {siteContent.navLinks.map((link, idx) => (
                 <motion.a
                   key={link.label}
-                  href={link.href}
-                  onClick={(event) => {
-                    if (link.href === '#home') {
-                      scrollToTop(event);
-                      return;
-                    }
-                    setMobileMenuOpen(false);
-                  }}
+                  href={link.href === '#home' ? '/' : link.href}
+                  onClick={(event) => scrollToSection(event, link.href)}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.04 * idx }}

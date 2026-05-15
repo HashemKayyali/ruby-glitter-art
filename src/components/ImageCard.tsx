@@ -18,8 +18,8 @@ export const ImageCard = ({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-[26px] border border-white/60 bg-white/75 p-2 shadow-[0_18px_45px_rgba(236,72,153,0.18)] ring-1 ring-white/80 backdrop-blur-md group">
-      <div className="absolute inset-0 rounded-[26px] glitter-border opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+    <div className="relative h-full w-full overflow-hidden rounded-[24px] border border-white/35 bg-white/55 p-1.5 shadow-[0_14px_34px_rgba(236,72,153,0.12)] ring-1 ring-white/45 backdrop-blur-md group">
+      <div className="absolute inset-0 rounded-[24px] glitter-border opacity-0 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none"></div>
       <motion.div
         className={cn(
           'h-full w-full relative bg-slate-100 rounded-[18px] overflow-hidden',
